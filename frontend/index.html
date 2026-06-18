@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Career Mentor</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--bg:#05050f;
+--surface:#0e0e1c;
+--surface2:#13132a;
+--border:rgba(255,255,255,.07);
+
+--purple:#7c3aed;
+--purple-light:#a78bfa;
+--purple-dim:rgba(124,58,237,.15);
+
+--green:#10b981;
+
+--text:#f1f0ff;
+--text-secondary:#8b8ba7;
+--text-muted:#4a4a6a;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+height:100vh;
+overflow:hidden;
+}
+
+nav{
+height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 35px;
+border-bottom:1px solid var(--border);
+background:#05050f;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:20px;
+font-weight:700;
+}
+
+.logo-icon{
+width:40px;
+height:40px;
+border-radius:12px;
+background:var(--purple);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.status{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14px;
+color:var(--green);
+}
+
+.dot{
+width:8px;
+height:8px;
+background:var(--green);
+border-radius:50%;
+}
+
+.layout{
+display:grid;
+grid-template-columns:320px 1fr 320px;
+height:calc(100vh - 70px);
+overflow:hidden;
+}
+
+.sidebar{
+border-right:1px solid var(--border);
+padding:25px;
+overflow:auto;
+}
+
+.rightbar{
+border-left:1px solid var(--border);
+padding:25px;
+overflow:auto;
+}
+
+.chat-section{
+display:flex;
+flex-direction:column;
+height:calc(100vh - 70px);
+overflow:hidden;
+}
+
+.section-title{
+font-size:11px;
+letter-spacing:1px;
+text-transform:uppercase;
+color:var(--text-muted);
+margin-bottom:15px;
+}
+
+.card{
+background:var(--surface2);
+border:1px solid var(--border);
+border-radius:14px;
+padding:18px;
+margin-bottom:18px;
+}
+
+.card h3{
+font-size:14px;
+margin-bottom:12px;
+}
+
+.profile-item{
+margin-bottom:12px;
+}
+
+.profile-item label{
+display:block;
+font-size:11px;
+color:var(--text-muted);
+margin-bottom:4px;
+}
+
+.profile-item span{
+font-size:14px;
+}
+
+.skill{
+display:inline-block;
+padding:5px 10px;
+border-radius:20px;
+background:var(--purple-dim);
+color:var(--purple-light);
+font-size:12px;
+margin:3px;
+}
+
+.career-item{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid var(--border);
+}
+
+.career-item:last-child{
+border-bottom:none;
+}
+
+.score{
+color:var(--green);
+font-weight:600;
+}
+
+.messages{
+flex:1;
+overflow-y:auto;
+overflow-x:hidden;
+padding:30px;
+display:flex;
+flex-direction:column;
+gap:20px;
+min-height:0;
+}
+
+.message{
+display:flex;
+gap:12px;
+}
+
+.message.user{
+justify-content:flex-end;
+}
+
+.bubble{
+max-width:70%;
+padding:14px 16px;
+border-radius:14px;
+line-height:1.7;
+font-size:14px;
+}
+
+.ai .bubble{
+background:var(--surface);
+border:1px solid var(--border);
+}
+
+.user .bubble{
+background:var(--purple-dim);
+border:1px solid rgba(124,58,237,.3);
+}
+
+.input-area{
+padding:20px;
+border-top:1px solid var(--border);
+display:flex;
+gap:12px;
+flex-shrink:0;
+background:var(--bg);
+}
+
+.input-area textarea{
+flex:1;
+background:var(--surface2);
+border:1px solid var(--border);
+border-radius:12px;
+padding:15px;
+color:white;
+resize:none;
+height:60px;
+outline:none;
+font-family:inherit;
+}
+
+.send-btn{
+width:60px;
+border:none;
+border-radius:12px;
+background:var(--purple);
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.send-btn:hover{
+background:#6d28d9;
+}
+
+.scholarship{
+padding:12px;
+background:var(--surface2);
+border-radius:10px;
+margin-bottom:10px;
+border:1px solid var(--border);
+}
+
+.roadmap-step{
+padding:12px;
+margin-bottom:10px;
+border-left:3px solid var(--purple);
+background:var(--surface2);
+}
+
+.typing{
+display:flex;
+gap:5px;
+padding:14px;
+}
+
+.typing span{
+width:7px;
+height:7px;
+background:#999;
+border-radius:50%;
+animation:bounce 1.2s infinite;
+}
+
+.typing span:nth-child(2){
+animation-delay:.2s;
+}
+
+.typing span:nth-child(3){
+animation-delay:.4s;
+}
+
+@keyframes bounce{
+0%,60%,100%{
+transform:translateY(0);
+}
+30%{
+transform:translateY(-6px);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+
+<div class="logo-icon">
+🎓
+</div>
+
+AI Career Mentor
+
+</div>
+
+<div class="status">
+
+<div class="dot"></div>
+
+Career Guidance Ready
+
+</div>
+
+</nav>
+
+<div class="layout">
+
+<!-- LEFT SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="section-title">
+Student Profile
+</div>
+
+<div class="card">
+
+<h3>Profile</h3>
+
+<div class="profile-item">
+<label>Name</label>
+<span id="studentName">Not Available</span>
+</div>
+
+<div class="profile-item">
+<label>Education</label>
+<span id="studentEducation">Not Available</span>
+</div>
+
+<div class="profile-item">
+<label>Interests</label>
+
+<div>
+<span class="skill">Coding</span>
+<span class="skill">AI</span>
+<span class="skill">Math</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Career Matches</h3>
+
+<div id="careerContainer"></div>
+
+</div>   <!-- Close card -->
+
+</div>   <!-- Close sidebar -->
+
+<!-- CHAT -->
+
+<div class="chat-section">
+
+<div class="messages" id="messages">
+
+<div class="message ai">
+
+<div class="bubble">
+
+👋 Welcome to AI Career Mentor.
+
+Tell me:
+
+• Your name  
+• Current class or degree  
+• Subjects you enjoy  
+• Career goals
+
+and I'll help build a personalized roadmap.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="input-area">
+
+<textarea
+id="questionInput"
+placeholder="Ask anything about careers, colleges, scholarships..."
+></textarea>
+
+<button
+class="send-btn"
+onclick="sendMessage()"
+>
+➤
+</button>
+
+</div>
+
+</div>
+</div> <!-- close chat-section -->
+
+<!-- RIGHT PANEL -->
+
+<div class="rightbar">
+
+<div class="section-title">
+Scholarships
+</div>
+
+<div class="scholarship">
+National Scholarship Portal
+</div>
+
+<div class="scholarship">
+INSPIRE Scholarship
+</div>
+
+<div class="scholarship">
+PM Scholarship Scheme
+</div>
+
+<div style="height:25px"></div>
+
+<div class="section-title">
+Roadmap
+</div>
+
+<div class="roadmap-step">
+Learn Python Fundamentals
+</div>
+
+<div class="roadmap-step">
+Build 2 Projects
+</div>
+
+<div class="roadmap-step">
+Participate in Hackathons
+</div>
+
+<div class="roadmap-step">
+Apply for Internships
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+async function sendMessage(){
+
+const input =
+document.getElementById("questionInput");
+
+const text =
+input.value.trim();
+
+if(!text)
+return;
+
+const messages =
+document.getElementById("messages");
+
+messages.innerHTML += `
+<div class="message user">
+<div class="bubble">${text}</div>
+</div>
+`;
+
+input.value="";
+
+messages.innerHTML += `
+<div class="message ai" id="typing">
+<div class="bubble">
+<div class="typing">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</div>
+`;
+
+messages.scrollTop =
+messages.scrollHeight;
+
+try{
+
+const response =
+await fetch(
+'http://127.0.0.1:8000/chat',
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+session_id:'demo-user',
+message:text
+})
+}
+);
+
+const data =
+await response.json();
+await refreshProfile();
+await refreshRecommendations();
+document
+.getElementById("typing")
+.remove();
+
+messages.innerHTML += `
+<div class="message ai">
+<div class="bubble">
+${data.reply}
+</div>
+</div>
+`;
+
+messages.scrollTop =
+messages.scrollHeight;
+
+}
+catch(err){
+
+document
+.getElementById("typing")
+.remove();
+
+messages.innerHTML += `
+<div class="message ai">
+<div class="bubble">
+Backend connection failed.
+</div>
+</div>
+`;
+
+}
+messages.scrollTop = messages.scrollHeight;
+}
+async function refreshProfile() {
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/profile/demo-user"
+    );
+
+    const data = await response.json();
+
+    document.getElementById(
+        "studentName"
+    ).innerText =
+        data.name || "Not Available";
+
+    document.getElementById(
+        "studentEducation"
+    ).innerText =
+        data.education || "Not Available";
+}
+async function refreshRecommendations() {
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/recommendations/demo-user"
+    );
+
+    const data = await response.json();
+
+    let html = "";
+
+    data.careers.forEach(career => {
+
+        html += `
+        <div class="career-item">
+            <span>${career.title}</span>
+            <span class="score">
+                ${career.score}%
+            </span>
+        </div>
+        `;
+    });
+
+    document.getElementById(
+        "careerContainer"
+    ).innerHTML = html;
+}
+window.onload = async () => {
+    await refreshProfile();
+    await refreshRecommendations();
+};
+</script>
+
+</body>
+</html> is all this correct?
