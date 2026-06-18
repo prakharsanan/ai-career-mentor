@@ -501,7 +501,7 @@ try{
 
 const response =
 await fetch(
-'http://127.0.0.1:8000/chat',
+'https://ai-career-mentor-cnt1.onrender.com/chat',
 {
 method:'POST',
 headers:{
@@ -554,7 +554,7 @@ messages.scrollTop = messages.scrollHeight;
 async function refreshProfile() {
 
     const response = await fetch(
-        "http://127.0.0.1:8000/profile/demo-user"
+        "https://ai-career-mentor-cnt1.onrender.com/profile/demo-user"
     );
 
     const data = await response.json();
@@ -572,7 +572,7 @@ async function refreshProfile() {
 async function refreshRecommendations() {
 
     const response = await fetch(
-        "http://127.0.0.1:8000/recommendations/demo-user"
+        "https://ai-career-mentor-cnt1.onrender.com/recommendations/demo-user"
     );
 
     const data = await response.json();
