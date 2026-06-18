@@ -460,6 +460,14 @@ Apply for Internships
 
 <script>
 
+// Create or reuse a unique session for this browser
+let SESSION_ID = localStorage.getItem("session_id");
+
+if (!SESSION_ID) {
+    SESSION_ID = crypto.randomUUID();
+    localStorage.setItem("session_id", SESSION_ID);
+}
+
 async function sendMessage(){
 
 const input =
@@ -508,7 +516,7 @@ headers:{
 'Content-Type':'application/json'
 },
 body:JSON.stringify({
-session_id:'demo-user',
+session_id: SESSION_ID,
 message:text
 })
 }
